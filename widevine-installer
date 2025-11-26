@@ -8,6 +8,7 @@ set -e
 : ${DESTDIR:=/}
 : ${CONFDIR:=/etc}
 : ${LIBDIR:=/usr/lib64}
+: ${OPTDIR:=/opt}
 : ${BINDIR:=/usr/bin}
 : ${LIBEXECDIR:=/usr/libexec}
 : ${STATEDIR:=/var/lib}
@@ -20,6 +21,7 @@ set -e
 : ${WIDEVINE_VERSION:=4.10.2662.3}
 : ${CHROME_WIDEVINE_BASE:=$LIBDIR/chromium-browser}
 : ${MOZ_PREF_BASE:=$LIBDIR/firefox/defaults/pref}
+: ${ZEN_PREF_BASE:=$OPTDIR/zen/defaults/pref}
 
 [ -e $(dirname "$0")/widevine_fixup.py ] && SCRIPT_BASE="$(realpath "$(dirname "$0")")"
 
@@ -36,6 +38,8 @@ install_configs() {
     ln -sf "$INSTALL_BASE/WidevineCdm" "$DESTDIR/$CHROME_WIDEVINE_BASE/WidevineCdm"
     install -d -m 0755 "$DESTDIR/$MOZ_PREF_BASE"
     install -p -m 0644 -t "$DESTDIR/$MOZ_PREF_BASE" ./conf/gmpwidevine.js
+    install -d -m 0755 "$DESTDIR/$ZEN_PREF_BASE"
+    install -p -m 0644 -t "$DESTDIR/$ZEN_PREF_BASE" ./conf/gmpwidevine.js
 }
 
 if [ "$1" = "--distinstall" ]; then
